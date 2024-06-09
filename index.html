@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- https://www.bootstrapcdn.com/ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Dogs</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1>Sorting and Filtering Of Dogs</h1>
+        <input placeholder="Name" type="text" v-model="name" v-on:keyup.enter="filterByName(name)">
+        <button v-on:click="filterByName(name)" class="btn btn-primary">Filter</button>
+
+        <h1>Get Dog By Id</h1>
+        <input type="number" v-model="id" placeholder="Enter Dog Id">
+        <button id="getByIdButton" v-on:click="getDog(id)" class="btn btn-primary">Get Dog By ID</button>
+        <div v-if="singleDog != null" id="dogList">
+            <h2>Id: {{ singleDog.id }}</h2>
+            <h2>Name: {{ singleDog.name }}</h2>
+            <h2>Age: {{ singleDog.age }}</h2>
+        </div>
+
+        <h2>Add Dog</h2>
+        <input v-model="addDogData.name" placeholder="name" type="text" />
+        <input v-model.number="addDogData.age" placeholder="age" type="number" />
+        <button v-on:click="addDog()" class="btn btn-success">Add</button>
+        <div>{{addMessage}}</div>
+
+        <h2>Delete Dog</h2>
+        <input v-model.number="deleteId" placeholder="id" type="number" />
+        <button v-on:click="deleteDog(deleteId)" class="btn btn-danger">Delete</button>
+        <div>{{deleteMessage}}</div>
+
+
+        <h1>Table Of Dogs</h1>
+        <table v-if="dogs.length > 0" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name
+                        <button v-on:click="sortByNameAsc()">Asc</button>
+                        <button v-on:click="sortByNameDesc()">Desc</button>
+                    </th>
+                    <th>Age
+                        <button v-on:click="sortByAgeAsc()">Asc</button>
+                        <button v-on:click="sortByAgeDesc()">Desc</button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="dog in filterDogs"> <!-- filterDogs instead of ALL DOGS! -->
+                    <td>{{ dog.id }}</td>
+                    <td>{{ dog.name }}</td>
+                    <td>{{ dog.age }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="index.js"></script>
+</body>
+
+</html>
